@@ -10,7 +10,8 @@ class Url extends Model
 {
     use HasFactory;
     use HasUuids;
-    protected $fillable = ['original_url', 'short_url'];
+
+    protected $fillable = ['original_url', 'short_url', 'about'];
 
 
 }

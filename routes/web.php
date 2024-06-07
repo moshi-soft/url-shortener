@@ -1,20 +1,14 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\UrlController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/', [UrlController::class, 'index'])->name('urls.index');
+Route::get('/create', [UrlController::class, 'create'])->name('urls.create');
+Route::post('/shorten', [UrlController::class, 'storeUrlMap'])->name('urls.shorten');
+Route::get('d/{shortUrl}', [UrlController::class, 'redirectToLongUrl'])->name('urls.redirect');
+
+Route::fallback(function () {
+    abort(404, 'Invalid url');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-});
-
-require __DIR__.'/auth.php';
